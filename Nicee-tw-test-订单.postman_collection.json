@@ -1,0 +1,2742 @@
+{
+	"info": {
+		"_postman_id": "81b36729-eb16-47c4-9698-2e8fc4a71e13",
+		"name": "Nicee-tw-test-订单",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "订单（正常完成）",
+			"item": [
+				{
+					"name": "C端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenC\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidC\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"886565\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenB\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidB\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"8868888\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取陪玩师技能ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取第一个游戏技能id\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"playerSkillId\", res.data.playerSkillVoList[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/user/detail/info?uuid={{uuidB}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"detail",
+								"info"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{uuidB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户创建订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取订单编号\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"orderNo\", res.data.orderNo);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"count\":1,\r\n    \"playerSkillId\":\"{{playerSkillId}}\",\r\n    \"paymentMethod\":\"Balance\",\r\n    \"priceType\":null,\r\n    \"couponUuid\":\"\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/create",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师接单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/accept/master",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"accept",
+								"master"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师确认完成",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderNo\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/playerConfirm",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"playerConfirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户确认完成",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/complete",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单详情",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言，订单是状态是完成的\r",
+									"pm.test(\"响应参数data.status：Invalid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.status).to.eql(\"Completed\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/order/detail?orderNo={{orderNo}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "orderNo",
+									"value": "{{orderNo}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师结算中明细有该笔订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取变量中的订单号\r",
+									"var orderNo = pm.environment.get(\"orderNo\");\r",
+									"// 断言，B端陪玩师结算中明细有该笔订单\r",
+									"pm.test(\"响应参数data[0].orderNo：\" + orderNo, function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data[0].orderNo).to.eql(orderNo);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/settlement/list",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"settlement",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单列表有该笔订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取变量中的订单号\r",
+									"var orderNo = pm.environment.get(\"orderNo\");\r",
+									"// 断言，订单列表有该笔订单\r",
+									"pm.test(\"响应参数data[0].orderNo：\" + orderNo, function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.pageContent[0].orderNo).to.eql(orderNo);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/order/list/master?offset=10",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"list",
+								"master"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "订单（取消订单）",
+			"item": [
+				{
+					"name": "C端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenC\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidC\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"886565\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取陪玩师技能ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取第一个游戏技能id\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"playerSkillId\", res.data.playerSkillVoList[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/user/detail/info?uuid={{uuidB}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"detail",
+								"info"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{uuidB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户创建订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取订单编号\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"orderNo\", res.data.orderNo);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"count\":1,\r\n    \"playerSkillId\":\"{{playerSkillId}}\",\r\n    \"paymentMethod\":\"Balance\",\r\n    \"priceType\":null,\r\n    \"couponUuid\":\"\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/create",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户取消订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\",\r\n    \"reportReason\":\"不想下單了\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}//order/cancel/normal",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"",
+								"order",
+								"cancel",
+								"normal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单详情",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言，订单是状态是取消状态的\r",
+									"pm.test(\"响应参数data.status：Invalid 且 data.refundType：NO_REFUND\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.status).to.eql(\"Invalid\");\r",
+									"    pm.expect(jsonData.data.refundType).to.eql(\"NO_REFUND\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/order/detail?orderNo={{orderNo}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "orderNo",
+									"value": "{{orderNo}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师结算中明细不会有该笔订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言，B端陪玩师结算中明细不会有该笔订单\r",
+									"pm.test(\"响应参数不会有orderNo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"orderNo\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/settlement/list",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"settlement",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户有退款入账",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取变量中的订单号\r",
+									"var orderNo = pm.environment.get(\"orderNo\");\r",
+									"// 断言，C端用户有退款入账\r",
+									"pm.test(\"响应参数data.pageContent[0].desc：退款入账 且 data.pageContent[0].receiptNo：\" + orderNo, function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.pageContent[0].desc).to.eql(\"退款入帳\");\r",
+									"    pm.expect(jsonData.data.pageContent[0].receiptNo).to.eql(orderNo);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/account/statement/list?offset=10&statementReceiptKind=Bill",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"statement",
+								"list"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "10"
+								},
+								{
+									"key": "statementReceiptKind",
+									"value": "Bill"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "订单（退款）",
+			"item": [
+				{
+					"name": "C端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenC\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidC\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"886565\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenB\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidB\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"8868888\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取陪玩师技能ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取第一个游戏技能id\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"playerSkillId\", res.data.playerSkillVoList[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/user/detail/info?uuid={{uuidB}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"detail",
+								"info"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{uuidB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户创建订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取订单编号\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"orderNo\", res.data.orderNo);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"count\":1,\r\n    \"playerSkillId\":\"{{playerSkillId}}\",\r\n    \"paymentMethod\":\"Balance\",\r\n    \"priceType\":null,\r\n    \"couponUuid\":\"\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/create",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师接单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/accept/master",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"accept",
+								"master"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户申请退款",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"applyUuid\": \"{{uuidC}}\", \r\n    \"desc\": \"测试退款\", \r\n    \"images\": [ ], \r\n    \"orderNo\": \"{{orderNo}}\", \r\n    \"refundApplyKind\": \"C_REFUND\", \r\n    \"refundItemList\": [\r\n        {\r\n            \"refundNum\": 1, \r\n            \"salesUnit\": \"Game\", \r\n            \"skillId\": {{playerSkillId}}\r\n        }\r\n    ], \r\n    \"region\": \"TW\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/tradeRefund/normalUserApplyRefund",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tradeRefund",
+								"normalUserApplyRefund"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师同意退款",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/accept/return/master",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"accept",
+								"return",
+								"master"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单详情",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言，订单是状态是退款的\r",
+									"pm.test(\"响应参数data.status：Invalid 且 data.refundType：FULL\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.status).to.eql(\"Invalid\");\r",
+									"    pm.expect(jsonData.data.refundType).to.eql(\"FULL\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/order/detail?orderNo={{orderNo}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "orderNo",
+									"value": "{{orderNo}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师结算中明细不会有该笔订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言，B端陪玩师结算中明细不会有该笔订单\r",
+									"pm.test(\"响应参数不会有orderNo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"orderNo\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/settlement/list",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"settlement",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户有退款入账",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取变量中的订单号\r",
+									"var orderNo = pm.environment.get(\"orderNo\");\r",
+									"// 断言，C端用户有退款入账\r",
+									"pm.test(\"响应参数data.pageContent[0].desc：退款入账 且 data.pageContent[0].receiptNo：\" + orderNo, function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.pageContent[0].desc).to.eql(\"退款入帳\");\r",
+									"    pm.expect(jsonData.data.pageContent[0].receiptNo).to.eql(orderNo);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/account/statement/list?offset=10&statementReceiptKind=Bill",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"statement",
+								"list"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "10"
+								},
+								{
+									"key": "statementReceiptKind",
+									"value": "Bill"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "订单（部分退款）",
+			"item": [
+				{
+					"name": "C端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenC\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidC\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"886565\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenB\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidB\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"8868888\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取陪玩师技能ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取第一个游戏技能id\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"playerSkillId\", res.data.playerSkillVoList[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/user/detail/info?uuid={{uuidB}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"detail",
+								"info"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{uuidB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户创建订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取订单编号\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"orderNo\", res.data.orderNo);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"count\":10,\r\n    \"playerSkillId\":\"{{playerSkillId}}\",\r\n    \"paymentMethod\":\"Balance\",\r\n    \"priceType\":null,\r\n    \"couponUuid\":\"\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/create",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师接单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/accept/master",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"accept",
+								"master"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户申请退款",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取退款金额\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"refundAmount\", res.data.refundAmount);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"applyUuid\": \"{{uuidC}}\", \r\n    \"desc\": \"测试部分退款\", \r\n    \"images\": [ ], \r\n    \"orderNo\": \"{{orderNo}}\", \r\n    \"refundApplyKind\": \"C_REFUND\", \r\n    \"refundItemList\": [\r\n        {\r\n            \"refundNum\": 5, \r\n            \"salesUnit\": \"Game\", \r\n            \"skillId\": {{playerSkillId}}\r\n        }\r\n    ], \r\n    \"region\": \"TW\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/tradeRefund/normalUserApplyRefund",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tradeRefund",
+								"normalUserApplyRefund"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师同意退款",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/accept/return/master",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"accept",
+								"return",
+								"master"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单详情",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言，订单是状态是部分退款的\r",
+									"pm.test(\"响应参数data.status：REFUND_SUCCESS 且 data.refundType：PARTIAL\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.status).to.eql(\"REFUND_SUCCESS\");\r",
+									"    pm.expect(jsonData.data.refundType).to.eql(\"PARTIAL\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/order/detail?orderNo={{orderNo}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "orderNo",
+									"value": "{{orderNo}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师结算中明细会有该笔订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言，B端陪玩师结算中明细有该笔订单\r",
+									"pm.test(\"响应参数不会有orderNo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"orderNo\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/settlement/list",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"settlement",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户有退款入账",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取变量中的订单号\r",
+									"var orderNo = pm.environment.get(\"orderNo\");\r",
+									"// 获取变量中的部分退款金额\r",
+									"var refundAmount = pm.environment.get(\"refundAmount\");\r",
+									"// 断言，C端用户有部分退款入账，且入账金额正确\r",
+									"pm.test(\"响应参数data.pageContent[0].desc：退款入账 且 data.pageContent[0].receiptNo：\" + orderNo, function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.pageContent[0].desc).to.eql(\"退款入帳\");\r",
+									"    pm.expect(jsonData.data.pageContent[0].receiptNo).to.eql(orderNo);\r",
+									"});\r",
+									"// 断言，C端用户有部分退款入账，且入账金额正确\r",
+									"pm.test(\"响应参数data.pageContent[0].amount：\" + refundAmount, function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.pageContent[0].amount).to.eql(refundAmount);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/account/statement/list?offset=10&statementReceiptKind=Bill",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"account",
+								"statement",
+								"list"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "10"
+								},
+								{
+									"key": "statementReceiptKind",
+									"value": "Bill"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "极速约单",
+			"item": [
+				{
+					"name": "C端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenC\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidC\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"886565\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取登录token\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"accessTokenB\", res.data.accessToken);\r",
+									"// 获取uuid\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"uuidB\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\":\"8868888\",\r\n    \"verifyCode\":\"1234\",\r\n    \"keyUuid\":null,\r\n    \"inviterUnique\":null\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/user/telephone/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"telephone",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端创建极速约单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取极速订单号\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"quickOrderNo\", res.data.uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"budgetAmountRight\":999999,\r\n    \"count\":1,\r\n    \"gameId\":1,\r\n    \"sex\":\"NobodyKnow\",\r\n    \"salesUnit\":\"Game\",\r\n    \"onlyVoice\":false,\r\n    \"type\":\"Normal\",\r\n    \"remarkReason\":\"\",\r\n    \"gameModelId\":8,\r\n    \"quickMatchLevelList\":[\"不限\"]\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/match/quick/create",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"match",
+								"quick",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师抢单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{quickOrderNo}}\",\r\n    \"voiceTimeLength\":null,\r\n    \"voiceUrl\":null,\r\n    \"textContent\":\"你好呀哥哥\",\r\n    \"reducePrice\":false\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/match/quick/grab/player/apply",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"match",
+								"quick",
+								"grab",
+								"player",
+								"apply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取陪玩师技能ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取指定游戏技能id\r",
+									"var res = JSON.parse(responseBody);\r",
+									"var playerSkillId = \"\";\r",
+									"for(var i=0;i<res.data.playerSkillVoList.length;i++){\r",
+									"    if(res.data.playerSkillVoList[i].gameId == 1){\r",
+									"        playerSkillId = res.data.playerSkillVoList[i].id;\r",
+									"        console.log(playerSkillId);\r",
+									"        break;\r",
+									"    }\r",
+									"}\r",
+									"// 设置为环境变量\r",
+									"pm.environment.set(\"playerSkillId\", playerSkillId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/user/detail/info?uuid={{uuidB}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"detail",
+								"info"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{uuidB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户选择陪玩师",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取订单号\r",
+									"var res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"orderNo\", res.data.orderNo);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"count\":1,\r\n    \"uuid\":\"{{quickOrderNo}}\",\r\n    \"playerSkillId\":\"{{playerSkillId}}\",\r\n    \"paymentMethod\":\"Balance\",\r\n    \"couponUuid\":\"\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/match/quick/finish",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"match",
+								"quick",
+								"finish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师接单quick",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/accept/master",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"accept",
+								"master"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师确认完成",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderNo\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/playerConfirm",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"playerConfirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "C端用户确认完成",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"{{orderNo}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/order/complete",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单详情",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言，订单是状态是完成的\r",
+									"pm.test(\"响应参数data.status：Invalid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.status).to.eql(\"Completed\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenC}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/order/detail?orderNo={{orderNo}}",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "orderNo",
+									"value": "{{orderNo}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "B端陪玩师结算中明细有该笔订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取变量中的订单号\r",
+									"var orderNo = pm.environment.get(\"orderNo\");\r",
+									"// 断言，B端陪玩师结算中明细有该笔订单\r",
+									"pm.test(\"响应参数data[0].orderNo：\" + orderNo, function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data[0].orderNo).to.eql(orderNo);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/settlement/list",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"settlement",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单列表有该笔订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 获取变量中的订单号\r",
+									"var orderNo = pm.environment.get(\"orderNo\");\r",
+									"// 断言，订单列表有该笔订单\r",
+									"pm.test(\"响应参数data[0].orderNo：\" + orderNo, function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.pageContent[0].orderNo).to.eql(orderNo);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "comm_params",
+								"value": "{{comm_params}}",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "default"
+							},
+							{
+								"key": "token",
+								"value": "{{accessTokenB}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{url}}/order/list/master?offset=10",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"order",
+								"list",
+								"master"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// 断言，响应状态码是否是200",
+					"pm.test(\"响应状态码：200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"// 断言，success是否是true",
+					"pm.test(\"响应参数success：true\", function () {",
+					"    var jsonData = pm.response.json();",
+					"    pm.expect(jsonData.success).to.eql(true);",
+					"});"
+				]
+			}
+		}
+	]
+}
